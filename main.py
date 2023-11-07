@@ -8,3 +8,17 @@ load_dotenv()
 app = FastAPI()
 
 app.include_router(routes.router)
+
+if __name__ == "__main__":
+    import uvicorn
+
+    if EnvVars.CREATE_INDEXES:
+        import db
+
+        db.create_indexes()
+
+    uvicorn.run(
+        "main:app",
+        reload=True,
+        host="0.0.0.0"
+    )

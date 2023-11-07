@@ -1,8 +1,5 @@
 from fastapi import APIRouter
-from . import (
-  controllers
-, models
-)
+from . import controllers
 
 router = APIRouter()
 

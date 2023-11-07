@@ -1,33 +1,12 @@
-from helpers import validatores
+from helpers import validators
+from pydantic import BaseModel, validator
 
-class EmailField(str):
-    @classmethod
-    def __get_validators__(cls):
-        yield cls.validate
+class PasswordField(BaseModel):
+    password: str
 
-    @classmethod
-    def validate(cls, value):
-        return True
-    
-class PhoneField(str):
-    @classmethod
-    def __get_validators__(cls):
-        yield cls.validate
-
-    @classmethod
-    def validate(cls, value):
-        return True
-
-class PasswordField(str):
-    @classmethod
-    def __get_validators__(cls):
-        yield cls.validate
-
-    @classmethod
-    def validate(cls, value):
-        if not validatores.valid_password(value) == False:
-          raise ValueError("Invalid Password")
+    @validator("password")
+    def validate_email(cls, value):
+        if not validators.valid_password(value):
+            raise ValueError("Invalid password format")
         
-        return True
-        
-
+        return value

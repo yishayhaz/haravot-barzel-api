@@ -1,5 +1,5 @@
-from pydantic import BaseModel, Field
-from helpers.types.fields import PasswordField, EmailField, PhoneField
+from pydantic import BaseModel, Field, validator
+from helpers.types.fields import PasswordField
 
 class LoginPayload(BaseModel):
     username: str = Field(...)
@@ -7,8 +7,13 @@ class LoginPayload(BaseModel):
 
 class SignupPayload(BaseModel):
     username: str = Field(...)
-    password: PasswordField = Field(...)
-    email: EmailField = Field(...)
-    phone: PhoneField = Field(...)
+    password: str = Field(...)
+    email: str = Field(...)
+    phone: str = Field(...)
     first_name: str = Field(...)
     last_name: str = Field(...)
+
+    @validator("password")
+    def validate_password(cls, value):
+        return PasswordField(password=value).password
+

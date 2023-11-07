@@ -3,6 +3,7 @@ import string, re
 punctuation_regex = r"[" + re.escape(string.punctuation) + r"]"
 
 def valid_password(password: str) -> bool:
+
     if not isinstance(password, str):
         return False
 
