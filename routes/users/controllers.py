@@ -1,21 +1,51 @@
-from fastapi import Request, Response
 from . import models, service
-from helpers import responses
+from helpers import responses, tokens
+from fastapi import Request
 
-def login(req: Request, data: models.LoginPayload):
-  return {
-    "message": "Login"
-  }
-
-def signup(req: Request, data: models.SignupPayload):
+def getme(req: Request):
   try:
-    user = service.create_user(data)
+    return req.state.user
+  except Exception as e:
+    return responses.ApiError(
+      code=400,
+      error_code="UNAUTHORIZED",
+      message=str(e)
+    )
+  
+def login(data: models.LoginPayload):
+  try:
+    user = service.login(data)
+
+    token = tokens.Tokens.encode(str(user["_id"]))
 
     res = responses.ApiSuccess()
 
     res.set_cookie(
       key="token",
-      value=str(user.inserted_id),
+      value=token,
+      httponly=True
+    )
+
+    return res
+
+  except Exception as e:
+    return responses.ApiError(
+        code=400,
+        error_code="LOGIN_FAILED",
+        message=str(e)
+      )
+
+def signup(data: models.SignupPayload):
+  try:
+    user = service.create_user(data)
+
+    token = tokens.Tokens.encode(str(user.inserted_id))
+
+    res = responses.ApiSuccess()
+
+    res.set_cookie(
+      key="token",
+      value=token,
       httponly=True
     )
 

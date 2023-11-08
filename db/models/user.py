@@ -10,7 +10,7 @@ class Users(BaseModel):
   last_name: str
   is_verified: bool = False
   date_of_birth: str = None
-  created_at: str = Field(default_factory=lambda: datetime.now().strftime("%Y-%m-%d %H:%M:%S"), alias="createdAt")
+  created_at: datetime = Field(default_factory=lambda: datetime.now().strftime("%Y-%m-%d %H:%M:%S"), alias="createdAt")
 
   def __get_collection_name__():
     return "users"

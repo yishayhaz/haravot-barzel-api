@@ -4,7 +4,6 @@ from argon2.exceptions import Argon2Error
 
 ph = PasswordHasher()
 
-
 def generate_password(length: int = 16) -> str:
   alphabet = string.ascii_letters + string.digits
 

@@ -12,6 +12,7 @@ class SignupPayload(BaseModel):
     phone: str = Field(...)
     first_name: str = Field(...)
     last_name: str = Field(...)
+    date_of_birth: str = Field(...)
 
     @validator("password")
     def validate_password(cls, value):
