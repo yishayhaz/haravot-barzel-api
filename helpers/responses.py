@@ -1,12 +1,7 @@
-from fastapi.responses import JSONResponse, Response
+from fastapi.responses import JSONResponse
 from fastapi import HTTPException
 from fastapi.encoders import jsonable_encoder
-from pydantic import BaseModel, Field
-from typing import Any
 from bson import ObjectId
-from pymongo.errors import DuplicateKeyError
-from io import BytesIO
-
 
 class _Response(JSONResponse):
     def __init__(
@@ -42,3 +37,10 @@ class ApiError(_Response):
 class ApiSuccess(_Response):
     def __init__(self, code: int = 200, success: bool = True, *args, **kwargs):
         super().__init__(code, success, *args, **kwargs)
+
+class ApiRaiseError(ApiError):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        raise HTTPException(
+            status_code=self.status_code, detail=self.content, headers=self.headers
+        )

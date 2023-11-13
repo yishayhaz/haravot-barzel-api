@@ -1,16 +1,15 @@
-from fastapi import Request, HTTPException
+from fastapi import Request, HTTPException, Response
 from helpers.tokens import Tokens
-from helpers.responses import ApiError
 import db
 from bson import ObjectId
 
-def login_required(req: Request):
+def login_required(req: Request, res: Response):
   try:
     token = req.cookies.get("token")
 
     data = Tokens.decode(token)
 
-    if not data['user_id']:
+    if not data.get('user_id'):
       raise Exception("Invalid token")
         
     user = db.USER_COLLECTION.find_one({
@@ -19,16 +18,13 @@ def login_required(req: Request):
 
     if not user:
       raise Exception("User not found")
+    
+    del user['password']
         
     req.state.user = user
   except:
-    res = ApiError(
-      code=401,
-      error_code="UNAUTHORIZED",
+    raise HTTPException(
+      status_code=401,
+      detail="Unauthorized",
+      headers={ "set-cookie": "token=; Path=/; HttpOnly; expires=Thu, 01 Jan 1970 00:00:00 GMT" }
     )
-
-    res.delete_cookie(
-      key="token"
-    )
-
-    return res

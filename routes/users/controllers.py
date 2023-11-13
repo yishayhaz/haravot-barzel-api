@@ -3,14 +3,7 @@ from helpers import responses, tokens
 from fastapi import Request
 
 def getme(req: Request):
-  try:
-    return req.state.user
-  except Exception as e:
-    return responses.ApiError(
-      code=400,
-      error_code="UNAUTHORIZED",
-      message=str(e)
-    )
+  return responses.ApiSuccess(data=req.state.user)
   
 def login(data: models.LoginPayload):
   try:
