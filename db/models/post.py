@@ -14,7 +14,7 @@ class PostContent():
 
 class Posts(BaseModel):
 
-  created_at: datetime = Field(default_factory=lambda: datetime.now().strftime("%Y-%m-%d %H:%M:%S"), alias="createdAt")
+  created_at: datetime = Field(default_factory=datetime.utcnow) 
   created_by: ObjectIdField
   profile: ObjectIdField
 

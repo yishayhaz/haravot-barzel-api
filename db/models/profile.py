@@ -15,14 +15,13 @@ class ProfileSocialPlatform(str, Enum):
   PINTEREST = "pinterest"
   REDDIT = "reddit"
   TELEGRAM = "telegram"
-  
 
 class ProfileSocial(BaseModel):
   url: str
   platform: ProfileSocialPlatform
 
 class Profiles(BaseModel):
-  created_at: datetime = Field(default_factory=lambda: datetime.now().strftime("%Y-%m-%d %H:%M:%S"), alias="createdAt")
+  created_at: datetime = Field(default_factory=datetime.utcnow) 
   username: str
   first_name: str
   last_name: str
@@ -33,9 +32,7 @@ class Profiles(BaseModel):
   image: ApiFile = None
   socials: list[ProfileSocial] = []
 
-  manager: ObjectIdField
+  manager: ObjectIdField = None
 
   def __get_collection_name__():
     return "profiles"
-
-  
