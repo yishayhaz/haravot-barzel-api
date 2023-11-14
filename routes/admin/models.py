@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field, validator
 from db.models.profile import ProfileSocial
+from typing import Optional
 
 class CreateProfilePayload(BaseModel):
   username: str = Field(...)
@@ -8,10 +9,10 @@ class CreateProfilePayload(BaseModel):
 
 
 class UpdateProfilePayload(BaseModel):
-  username: str = None
-  first_name: str = None
-  last_name: str = None
-  date_of_birth: str = None
-  date_of_death: str = None
-  bio: str = None
-  image: str = None
+  username: Optional[str] = Field(None)
+  first_name: Optional[str] = Field(None)
+  last_name: Optional[str] = Field(None)
+  date_of_birth: Optional[str] = Field(None)
+  date_of_death: Optional[str] = Field(None)
+  bio: Optional[str] = Field(None)
+  image: Optional[str] = Field(None)

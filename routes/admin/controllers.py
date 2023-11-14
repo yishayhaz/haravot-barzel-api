@@ -9,5 +9,6 @@ def create_profile(data: models.CreateProfilePayload):
   except:
     return responses.ApiError(message="Profile creation failed")
   
-def update_profile(data: models.CreateProfilePayload):
-  pass
+def update_profile(data: models.UpdateProfilePayload):
+  print(data)
+  return responses.ApiSuccess(data=data)
