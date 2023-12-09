@@ -1,5 +1,6 @@
 from . import models, service
 from helpers import responses
+from fastapi import Path
 
 def create_profile(data: models.CreateProfilePayload):
   try:
@@ -9,6 +10,10 @@ def create_profile(data: models.CreateProfilePayload):
   except:
     return responses.ApiError(message="Profile creation failed")
   
-def update_profile(data: models.UpdateProfilePayload):
-  print(data)
-  return responses.ApiSuccess(data=data)
+def update_profile(data: models.UpdateProfilePayload, profile_id: str = Path(...)):
+  try:
+    service.update_profile(data, profile_id)
+
+    return responses.ApiSuccess(message="Profile updated successfully")
+  except:
+    return responses.ApiError(message="Profile update failed")

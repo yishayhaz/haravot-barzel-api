@@ -5,6 +5,7 @@ class EnvVariabels(BaseSettings):
   DB_NAME: str = ""
   CREATE_INDEXES: bool = False
   TOKEN_SECRET: str = ""
+  ADMIN_SECRET: str = ""
 
   class Config:
       env_file = ".env"

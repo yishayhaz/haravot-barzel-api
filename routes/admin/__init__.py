@@ -1,6 +1,5 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter
 from . import controllers
-import middlewares
 
 router = APIRouter()
 
