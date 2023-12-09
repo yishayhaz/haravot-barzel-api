@@ -18,3 +18,15 @@ def update_profile(data: models.UpdateProfilePayload, profile_id: str):
     {"_id": ObjectId(profile_id)},
     {"$set": data}
   )
+
+def add_profile_social(data: models.AddProfileSocialPayload, profile_id: str):
+  return db.PROFILE_COLLECTION.update_one(
+    {"_id": ObjectId(profile_id)},
+    {"$push": {"socials": data.social.model_dump()}}
+  )
+  
+def delete_profile_social(profile_id: str, social_platform: str):
+  return db.PROFILE_COLLECTION.update_one(
+    {"_id": ObjectId(profile_id)},
+    {"$pull": {"socials": {"platform": social_platform}}}
+  )

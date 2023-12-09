@@ -18,3 +18,6 @@ class UpdateProfilePayload(BaseModel):
   bio: Optional[str] = Field(None)
   image: Optional[str] = Field(None)
   manager: Optional[str] = Field(None)
+
+class AddProfileSocialPayload(BaseModel):
+  social: ProfileSocial = Field(...)
